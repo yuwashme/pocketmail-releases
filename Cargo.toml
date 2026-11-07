@@ -1,0 +1,58 @@
+[package]
+name = "synology-mail-server"
+version = "0.1.7"
+edition = "2024"
+license = "MIT"
+description = "A small IMAP mail server for a Synology NAS, fed by a Cloudflare Email Worker"
+
+[dependencies]
+tempfile = "3.27"
+base64 = "0.21.7"
+rusqlite = { version = "0.41.1", features = ["bundled"] }
+argon2 = "0.6.0"
+getrandom = "0.4.3"
+# SHA-256 of session ids; already compiled in for rustls.
+ring = { version = "0.17.14", default-features = false }
+tokio = { version = "1.54", default-features = false, features = ["rt", "net", "io-util", "time", "sync", "macros", "signal", "process", "fs"] }
+rustls = { version = "0.23.46", default-features = false, features = ["ring", "std", "tls12"] }
+tokio-rustls = { version = "0.26.6", default-features = false, features = ["ring", "tls12"] }
+webpki-roots = "1.0.11"
+httparse = "1.10.1"
+serde_json = "1.0.154"
+# imap-codec is used for command decoding only. `unvalidated` gives `CodeOther::unvalidated` for the
+# CANNOT / AUTHENTICATIONFAILED response codes.
+imap-codec = { version = "=1.0.0", default-features = false }
+imap-types = { version = "=1.0.0", features = ["unvalidated"] }
+mail-parser = { version = "=1.0.1", default-features = false }
+
+[features]
+# Test-only crash injection points in store::deliver. Enabled for tests by the
+# self dev-dependency below; never enabled in a release build.
+failpoints = []
+
+[dev-dependencies]
+synology-mail-server = { path = ".", features = ["failpoints"] }
+rusqlite = { version = "0.41.1", features = ["bundled"] }
+# Test certificates generated at test time (ring, no aws-lc).
+rcgen = { version = "0.14.10", default-features = false, features = ["crypto", "pem", "ring"] }
+
+# argon2id m=12 MiB t=3 is ~100x slower unoptimised; keep debug test runs fast.
+[profile.dev.package.argon2]
+opt-level = 3
+
+[profile.dev.package.blake2]
+opt-level = 3
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+# Password verification dominates ARM login latency. Optimize the small compute kernels
+# for throughput while retaining the size-oriented profile for the rest of the server.
+[profile.release.package.argon2]
+opt-level = 3
+[profile.release.package.blake2]
+opt-level = 3

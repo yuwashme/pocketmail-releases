@@ -1,0 +1,16 @@
+<label id="body-label" for="body">Message</label>
+<textarea id="body" name="body" rows="10" required></textarea>
+<div id="rich-compose" hidden>
+  <div class="compose-tools" role="group" aria-label="Message formatting">
+    <button class="secondary" type="button" data-command="bold"><b>Bold</b></button>
+    <button class="secondary" type="button" data-command="italic"><i>Italic</i></button>
+    <button class="secondary" type="button" data-command="underline"><u>Underline</u></button>
+    <button class="secondary" type="button" data-command="insertUnorderedList">Bullet list</button>
+    <button class="secondary" type="button" id="paste-message">Paste</button>
+  </div>
+  <div id="editor" role="textbox" aria-labelledby="body-label" aria-multiline="true" contenteditable="true"></div>
+  <span id="compose-status" role="status"></span>
+  <input type="hidden" name="html" id="html">
+</div>
+<button type="submit">Send</button></form>
+<script src="/compose.js" defer></script>

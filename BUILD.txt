@@ -1,0 +1,1 @@
+Pocketmail 0.1.7 preview. Build the Rust server with cargo build --release --locked --bin synology-mail-server. For the rtd1296 preview use the aarch64-unknown-linux-musl target and a matching C cross compiler. Installation: https://pocketmail.app/setup
