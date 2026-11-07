@@ -1,8 +1,8 @@
-# Pocketmail
+# Pocketmail has moved
 
-Pocketmail is a lightweight mail server for Synology DSM. This branch contains the server source published with the v0.1.7 preview.
+[Pocketmail source, issues, and releases](https://github.com/yuwashme/pocketmail) are now in the main project repository.
 
-- [Download the v0.1.7-4 preview package for rtd1296](https://github.com/yuwashme/pocketmail-releases/releases/download/v0.1.7/pocketmail-rtd1296-0.1.7-4.spk)
+- [Download a preview](https://github.com/yuwashme/pocketmail/releases)
 - [Installation instructions](https://pocketmail.app/setup)
-- [Browse the server source](src/) or [build it locally](BUILD.txt)
-- [View all releases](https://github.com/yuwashme/pocketmail-releases/releases)
+
+This archive preserves earlier download links.
